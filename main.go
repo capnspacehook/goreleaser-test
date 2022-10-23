@@ -2,9 +2,7 @@ package main
 
 import "fmt"
 
-var (
-	version string
-)
+var version = "devel"
 
 func main() {
 	fmt.Println(version)
