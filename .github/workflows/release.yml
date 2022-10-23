@@ -98,11 +98,11 @@ jobs:
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
 
+      - env:
+          COSIGN_EXPERIMENTAL: "true"
+        run: cosign sign ghcr.io/${{ github.repository }}@${{ steps.build-push.outputs.digest }}
+
       - uses: chainguard-images/actions/vul-scans@main
         with:
           image: ghcr.io/${{ github.repository }}@${{ steps.build-push.outputs.digest }}
           RUN_SNYK: false
-
-      - env:
-          COSIGN_EXPERIMENTAL: "true"
-        run: cosign sign ghcr.io/${{ github.repository }}@${{ steps.build-push.outputs.digest }}
