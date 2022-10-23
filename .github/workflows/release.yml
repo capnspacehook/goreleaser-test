@@ -22,6 +22,8 @@ jobs:
           go-version: 1.19.x
           check-latest: true
 
+      - uses: anchore/sbom-action/download-syft@main
+
       - uses: sigstore/cosign-installer@main
 
       - uses: goreleaser/goreleaser-action@v2
