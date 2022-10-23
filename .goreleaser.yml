@@ -25,7 +25,7 @@ builds:
 
 archives:
   - id: binary-archive
-    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    name_template: "{{ .ProjectName }}"
     format: binary
   - id: tar-archive
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
