@@ -8,7 +8,7 @@ on:
 jobs:
   release-binary:
     runs-on: ubuntu-latest
-    if: contains(github.ref, "tag")
+    if: contains(github.ref, 'tag')
     permissions:
       id-token: write
       contents: write
