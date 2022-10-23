@@ -17,6 +17,7 @@ builds:
       - amd64
     flags:
       - -buildmode=pie
+      - -buildvcs=true
       - -trimpath
     mod_timestamp: '{{ .CommitTimestamp }}'
     ldflags:
