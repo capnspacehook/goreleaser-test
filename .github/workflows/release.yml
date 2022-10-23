@@ -49,17 +49,22 @@ jobs:
       - id: tag-types
         run: |
           if [[ ${{ contains(github.ref, 'tag') }} == true ]]; then
-            tags=$(echo "type=semver\ntype=ref,event=branch\ntype=sha,format=long")
+            TAGS="type=semver,pattern={{version}}
+              type=semver,pattern={{major}}
+              type=semver,pattern={{major}}.{{minor}}
+              type=ref,event=branch
+              type=sha,format=long"
           else
-            tags=$(echo "type=ref,event=branch\ntype=sha,format=long")
+            TAGS="type=ref,event=branch
+              type=sha,format=long"
           fi
-          echo "tags=$tags" >> $GITHUB_OUTPUT
+          echo "tags=$TAGS" >> $GITHUB_OUTPUT
 
       - id: metadata
         uses: docker/metadata-action@v4
         with:
           images: ${{ github.repository }}
-          tags: ${{ steps.tag-types.output.tags }}
+          tags: ${{ steps.tag-types.outputs.tags }}
 
       - uses: docker/login-action@v2
         with:
@@ -75,7 +80,7 @@ jobs:
         with:
           push: true
           build-args: |
-            VERSION=${{ steps.get-tag.output.tag }}
+            VERSION=${{ steps.get-tag.outputs.tag }}
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
 
