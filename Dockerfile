@@ -6,13 +6,13 @@ WORKDIR /build
 # build as PIE to take advantage of exploit mitigations
 ARG CGO_ENABLED=0
 ARG VERSION
-RUN go build -buildmode pie -ldflags "-s -w -X main.version=${VERSION}" -trimpath -o goreleaser-test
+RUN go build -buildmode pie -ldflags "-s -w -X main.version=${VERSION}" -trimpath -o go-project-template
 
 FROM ghcr.io/capnspacehook/pie-loader
-COPY --from=builder /build/goreleaser-test /goreleaser-test
+COPY --from=builder /build/go-project-template /go-project-template
 
 # apparently giving capabilities to containers doesn't work when the
 # container isn't running as root inside the container, see
 # https://github.com/moby/moby/issues/8460
 
-ENTRYPOINT [ "/goreleaser-test" ]
+ENTRYPOINT [ "/go-project-template" ]

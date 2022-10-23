@@ -51,4 +51,4 @@ release:
     - checksum-signature
     - tar-archive
   prerelease: auto
-  name_template: "Release {{ .Tag }}"
+  name_template: "{{ .Tag }}"
