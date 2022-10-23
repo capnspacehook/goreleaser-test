@@ -27,9 +27,6 @@ builds:
 
 archives:
   - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-    files:
-      - "*.crt"
-      - "*.sig"
 
 checksum:
   name_template: "checksums.txt"
