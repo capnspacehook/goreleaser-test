@@ -50,20 +50,20 @@ jobs:
         run: |
           if [[ ${{ contains(github.ref, 'tag') }} == true ]]; then
             TAGS="type=semver,pattern={{version}}
-              type=semver,pattern={{major}}
-              type=semver,pattern={{major}}.{{minor}}
-              type=ref,event=branch
-              type=sha,format=long"
+type=semver,pattern={{major}}
+type=semver,pattern={{major}}.{{minor}}
+type=ref,event=branch
+type=sha,format=long"
           else
             TAGS="type=ref,event=branch
-              type=sha,format=long"
+type=sha,format=long"
           fi
           echo "tags=$TAGS" >> $GITHUB_OUTPUT
 
       - id: metadata
         uses: docker/metadata-action@v4
         with:
-          images: ${{ github.repository }}
+          images: ghcr.io/${{ github.repository }}
           tags: ${{ steps.tag-types.outputs.tags }}
 
       - uses: docker/login-action@v2
