@@ -1,0 +1,43 @@
+project_name: goreleaser-test
+
+env:
+  - COSIGN_EXPERIMENTAL=true
+
+gomod:
+  proxy: true
+
+builds:
+  - binary: goreleaser-test
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+    flags:
+      - -buildmode=pie
+      - -trimpath
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    ldflags:
+      - -s -w -X "main.version={{ .Tag }}"
+
+checksum:
+  name_template: "checksums.txt"
+
+sboms:
+  - artifacts: binary
+
+signs:
+  - cmd: cosign
+    certificate: "${artifact}.crt"
+    args: ["sign-blob", "--output-signature", "${signature}", "--output-certificate", "${certificate}", "${artifact}"]
+    artifacts: all
+
+changelog:
+  use: github
+  sort: asc
+
+release:
+  draft: false
+  prerelease: true
+  name_template: "Release {{ .Tag }}"

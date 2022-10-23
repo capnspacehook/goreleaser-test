@@ -1,1 +1,1 @@
-# sigstore-test
+# goreleaser-test
