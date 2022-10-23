@@ -40,7 +40,7 @@ jobs:
       id-token: write
       packages: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - uses: sigstore/cosign-installer@main
 
@@ -68,8 +68,8 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          build-args:
-            - VERSION=${{ steps.get-tag.output.tag }}
+          build-args: |
+            VERSION=${{ steps.get-tag.output.tag }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
