@@ -55,12 +55,14 @@ jobs:
             type=semver,pattern={{major}}.{{minor}}
             type=ref,event=branch
             type=sha,format=long
-            EOF)
+            EOF
+            )
           else
             TAGS=$(cat << EOF
             type=ref,event=branch
             type=sha,format=long
-            EOF)
+            EOF
+            )
           fi
 
           # https://trstringer.com/github-actions-multiline-strings
