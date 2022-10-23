@@ -1,5 +1,3 @@
-project_name: goreleaser-test
-
 env:
   - COSIGN_EXPERIMENTAL=true
 
@@ -11,7 +9,8 @@ gomod:
   proxy: true
 
 builds:
-  - binary: goreleaser-test
+  - id: binary
+    binary: goreleaser-test
     env:
       - CGO_ENABLED=0
     goos:
@@ -26,10 +25,14 @@ builds:
       - -s -w -X "main.version={{ .Tag }}"
 
 archives:
-  - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+  - id: archive
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 checksum:
   name_template: "checksums.txt"
+  ids:
+    - binary
+    - archive
 
 signs:
   - cmd: cosign
