@@ -3,6 +3,10 @@ project_name: goreleaser-test
 env:
   - COSIGN_EXPERIMENTAL=true
 
+changelog:
+  use: github
+  sort: asc
+
 gomod:
   proxy: true
 
@@ -21,21 +25,20 @@ builds:
     ldflags:
       - -s -w -X "main.version={{ .Tag }}"
 
-checksum:
-  name_template: "checksums.txt"
-
 sboms:
   - artifacts: binary
+
+archives:
+  - name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: "checksums.txt"
 
 signs:
   - cmd: cosign
     certificate: "${artifact}.crt"
     args: ["sign-blob", "--output-signature", "${signature}", "--output-certificate", "${certificate}", "${artifact}"]
     artifacts: all
-
-changelog:
-  use: github
-  sort: asc
 
 release:
   prerelease: auto
