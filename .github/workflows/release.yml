@@ -72,7 +72,8 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository }}
-          flavor: true
+          flavor: |
+            latest=true
           tags: ${{ env.TAGS }}
 
       - uses: docker/login-action@v2
