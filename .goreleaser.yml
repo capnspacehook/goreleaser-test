@@ -9,8 +9,7 @@ gomod:
   proxy: true
 
 builds:
-  - binary: goreleaser-test
-    env:
+  - env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -30,6 +29,9 @@ archives:
   - id: tar-archive
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     format: tar.gz
+    # hack to only add binary to archive
+    files:
+      - none*
 
 checksum:
   name_template: "checksums.txt"
