@@ -38,13 +38,15 @@ checksum:
     - tar-archive
 
 signs:
-  - cmd: cosign
+  - id: checksum-signature
+    cmd: cosign
     certificate: "${artifact}.crt"
     args: ["sign-blob", "--output-signature", "${signature}", "--output-certificate", "${certificate}", "${artifact}"]
     artifacts: checksum
 
 release:
   ids:
+    - checksum-signature
     - tar-archive
   prerelease: auto
   name_template: "Release {{ .Tag }}"
