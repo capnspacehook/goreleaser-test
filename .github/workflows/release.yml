@@ -28,7 +28,7 @@ jobs:
 
       - uses: sigstore/cosign-installer@main
 
-      - uses: goreleaser/goreleaser-action@v2
+      - uses: goreleaser/goreleaser-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
