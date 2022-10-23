@@ -1,4 +1,4 @@
-name: Vuln
+name: Test
 
 on:
   push:
@@ -12,7 +12,7 @@ env:
   GO_VERSION: "1.19"
 
 jobs:
-  govulncheck:
+  race-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,7 +23,5 @@ jobs:
           check-latest: true
           cache: true
 
-      - uses: florianl/govulncheck-action@v0.0.3
-        with:
-          install-go: false
-          govulncheck-verbose: true
+      - run: |
+          go test -race -v ./...
