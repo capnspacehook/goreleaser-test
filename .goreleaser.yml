@@ -9,8 +9,7 @@ gomod:
   proxy: true
 
 builds:
-  - id: binary
-    binary: goreleaser-test
+  - binary: goreleaser-test
     env:
       - CGO_ENABLED=0
     goos:
@@ -25,21 +24,27 @@ builds:
       - -s -w -X "main.version={{ .Tag }}"
 
 archives:
-  - id: archive
+  - id: binary-archive
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format: binary
+  - id: tar-archive
+    name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    format: tar.gz
 
 checksum:
   name_template: "checksums.txt"
   ids:
-    - binary
-    - archive
+    - binary-archive
+    - tar-archive
 
 signs:
   - cmd: cosign
     certificate: "${artifact}.crt"
     args: ["sign-blob", "--output-signature", "${signature}", "--output-certificate", "${certificate}", "${artifact}"]
-    artifacts: all
+    artifacts: checksum
 
 release:
+  ids:
+    - tar-archive
   prerelease: auto
   name_template: "Release {{ .Tag }}"
