@@ -38,6 +38,5 @@ changelog:
   sort: asc
 
 release:
-  draft: false
-  prerelease: true
+  prerelease: auto
   name_template: "Release {{ .Tag }}"
