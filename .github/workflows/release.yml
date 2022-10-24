@@ -43,7 +43,7 @@ jobs:
       - run: |
           REPO="${{ github.repository }}"
           REPO_NAME="${REPO#*/}"
-          cp dist/${REPO_NAME}_linux_amd64_v1/${REPO_NAME}" released-binary
+          cp "dist/${REPO_NAME}_linux_amd64_v1/${REPO_NAME}" released-binary
 
       - uses: actions/upload-artifact@v3
         with:
