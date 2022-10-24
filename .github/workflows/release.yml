@@ -38,7 +38,15 @@ jobs:
         with:
           distribution: goreleaser
           version: latest
-          args: release --rm-dist
+          args: release
+
+      - run: |
+          REPO="${{ github.repository }}"
+          REPO_NAME="${REPO#*/}"
+          ORIG_BIN="dist/${REPO_NAME}_linux_amd64_v1/${REPO_NAME}"
+
+          go install github.com/capnspacehook/gorepro@latest
+          gorepro -b=-buildmode=pie -no-go-gc $ORIG_BIN
 
   release-image:
     runs-on: ubuntu-latest
