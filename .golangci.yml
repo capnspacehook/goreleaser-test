@@ -12,7 +12,7 @@ linters:
     - errorlint
     - forcetypeassert
     - gocritic
-    - goimports
+    - gofumpt
     - gosimple
     - govet
     - ineffassign

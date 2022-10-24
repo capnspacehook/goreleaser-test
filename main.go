@@ -10,9 +10,9 @@ import (
 	"rsc.io/quote"
 )
 
-var (
-	printVersion bool
-)
+const projectName = "Go Project Template"
+
+var printVersion bool
 
 func usage() {
 	fmt.Fprintf(os.Stderr, `
@@ -22,11 +22,11 @@ func usage() {
 	
 <Project details/usage>
 
-<Project name> accepts the following flags:
+%s accepts the following flags:
 
-`[1:])
+`[1:], projectName)
 	flag.PrintDefaults()
-	fmt.Fprintf(os.Stderr, `
+	fmt.Fprint(os.Stderr, `
 
 For more information, see https://github.com/<user>/<repo>.
 `[1:])

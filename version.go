@@ -10,7 +10,7 @@ import (
 var version = "devel"
 
 func printVersionInfo(info *debug.BuildInfo) {
-	fmt.Printf("<Project name> %s\n\n", version)
+	fmt.Printf("%s %s\n\n", projectName, version)
 
 	fmt.Print("Build Information:\n\n")
 	buildtw := tabwriter.NewWriter(os.Stdout, 0, 2, 2, ' ', 0)
