@@ -40,36 +40,6 @@ jobs:
           version: latest
           args: release
 
-      - run: |
-          REPO="${{ github.repository }}"
-          REPO_NAME="${REPO#*/}"
-          cp "dist/${REPO_NAME}_linux_amd64_v1/${REPO_NAME}" released-binary
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: released-binary
-          path: ./released-binary
-
-  reproduce-binary:
-    runs-on: ubuntu-latest
-    needs: release-binary
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-go@v3
-        with:
-          go-version: ${{ env.GO_VERSION }}.x
-          check-latest: true
-          cache: true
-
-      - uses: actions/download-artifact@v3
-        with:
-          name: released-binary
-
-      - run: |
-          go install github.com/capnspacehook/gorepro@latest
-          gorepro -b=-buildmode=pie -no-go-gc released-binary
-
   release-image:
     runs-on: ubuntu-latest
     permissions:
