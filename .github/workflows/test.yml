@@ -28,3 +28,21 @@ jobs:
       - name: Run tests
         run: |
           go test -race -timeout 5m -v ./...
+
+  fuzz:
+    runs-on: ubuntu-latest
+    needs: race-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: ${{ env.GO_VERSION }}.x
+          check-latest: true
+          cache: true
+
+      - name: Fuzz code for 10 minutes
+        run: |
+          go test -fuzz Fuzz -run DONOT -fuzztime 10m
