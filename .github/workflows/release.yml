@@ -18,21 +18,26 @@ jobs:
       id-token: write
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - run: git fetch --force --tags
+      - name: Checkout tags
+        run: git fetch --force --tags
 
-      - uses: actions/setup-go@v3
+      - name: Install Go
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ env.GO_VERSION }}.x
           check-latest: true
           cache: true
 
-      - uses: sigstore/cosign-installer@main
+      - name: Install cosign
+        uses: sigstore/cosign-installer@main
 
-      - uses: goreleaser/goreleaser-action@v3
+      - name: Build and release with goreleaser
+        uses: goreleaser/goreleaser-action@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -46,13 +51,17 @@ jobs:
       id-token: write
       packages: write
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - uses: sigstore/cosign-installer@main
+      - name: Install cosign
+        uses: sigstore/cosign-installer@main
 
-      - uses: docker/setup-buildx-action@v2
+      - name: Install docker buildx
+        uses: docker/setup-buildx-action@v2
 
-      - id: tag-types
+      - name: Build list of docker tags to use
+        id: tag-types
         run: |
           if [[ ${{ contains(github.ref, 'tag') }} == true ]]; then
             TAGS="
@@ -72,7 +81,8 @@ jobs:
           echo "$TAGS" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
 
-      - id: metadata
+      - name: Set docker labels and tags
+        id: metadata
         uses: docker/metadata-action@v4
         with:
           images: ghcr.io/${{ github.repository }}
@@ -80,16 +90,19 @@ jobs:
             latest=true
           tags: ${{ env.TAGS }}
 
-      - uses: docker/login-action@v2
+      - name: Login to container registry
+        uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - id: get-tag
+      - name: Get latest git tag
+        id: get-tag
         uses: olegtarasov/get-tag@v2.1
 
-      - id: build-push
+      - name: Build and push docker image
+        id: build-push
         uses: docker/build-push-action@v3
         with:
           push: true
@@ -98,11 +111,13 @@ jobs:
           tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
 
-      - env:
+      - name: Sign container image
+        env:
           COSIGN_EXPERIMENTAL: "true"
         run: cosign sign ghcr.io/${{ github.repository }}@${{ steps.build-push.outputs.digest }}
 
-      - uses: chainguard-images/actions/vul-scans@main
+      - name: Scan container image for vulnerabilities
+        uses: chainguard-images/actions/vul-scans@main
         with:
           image: ghcr.io/${{ github.repository }}@${{ steps.build-push.outputs.digest }}
           RUN_SNYK: false

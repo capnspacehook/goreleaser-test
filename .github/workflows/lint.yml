@@ -15,15 +15,18 @@ jobs:
   check-mod-tidy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-go@v3
+      - name: Install Go
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ env.GO_VERSION }}.x
           check-latest: true
           cache: true
 
-      - run: |
+      - name: Check if go.mod was tidied
+        run: |
           go mod tidy -compat ${{ env.GO_VERSION }}
           STATUS=$( git status --porcelain go.mod go.sum )
           if [ ! -z "$STATUS" ]; then
@@ -35,29 +38,35 @@ jobs:
   staticcheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-go@v3
+      - name: Install Go
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ env.GO_VERSION }}.x
           check-latest: true
           cache: true
 
-      - uses: dominikh/staticcheck-action@v1.2.0
+      - name: Lint with staticcheck
+        uses: dominikh/staticcheck-action@v1.2.0
         with:
           install-go: false
 
   golangci-lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - uses: actions/setup-go@v3
+      - name: Install Go
+        uses: actions/setup-go@v3
         with:
           go-version: ${{ env.GO_VERSION }}.x
           check-latest: true
           cache: true
 
-      - uses: golangci/golangci-lint-action@v3.3.0
+      - name: Lint with golangci-lint
+        uses: golangci/golangci-lint-action@v3.3.0
         with:
           only-new-issues: true
