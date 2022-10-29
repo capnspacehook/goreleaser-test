@@ -10,7 +10,7 @@ import (
 	"rsc.io/quote"
 )
 
-const projectName = "Go Project Template"
+const projectName = "Go Project Template" // REPLACE WITH YOUR PROJECT NAME HERE
 
 var printVersion bool
 
@@ -55,6 +55,7 @@ func mainRetCode() int {
 		return 0
 	}
 
+	// REPLACE WITH YOUR CODE HERE
 	fmt.Println(quote.Glass())
 
 	return 0
