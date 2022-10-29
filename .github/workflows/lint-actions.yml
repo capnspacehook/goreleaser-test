@@ -1,18 +1,15 @@
-name: Vulnerability scan
+name: Lint workflows
 
 on:
   push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+    paths:
+      - ".github/workflows/*"
 
 env:
   GO_VERSION: "1.19"
 
 jobs:
-  govulncheck:
+  lint-workflows:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -25,7 +22,8 @@ jobs:
           check-latest: true
           cache: true
 
-      - name: Scan for known vulnerable dependencies
+      - name: Lint workflow files
         run: |
-          go install golang.org/x/vuln/cmd/govulncheck@latest
-          govulncheck -v ./...
+          echo "::add-matcher::.github/actionlint-matcher.json"
+          go install github.com/rhysd/actionlint/cmd/actionlint@latest
+          actionlint
