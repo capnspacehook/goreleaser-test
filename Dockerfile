@@ -11,8 +11,6 @@ RUN go build -buildmode pie -ldflags "-s -w -X main.version=${VERSION}" -trimpat
 FROM ghcr.io/capnspacehook/pie-loader
 COPY --from=builder /build/go-project-template /go-project-template
 
-# apparently giving capabilities to containers doesn't work when the
-# container isn't running as root inside the container, see
-# https://github.com/moby/moby/issues/8460
+USER 1000:1000
 
 ENTRYPOINT [ "/go-project-template" ]
