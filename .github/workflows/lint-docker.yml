@@ -5,6 +5,8 @@ on:
     paths:
       - Dockerfile
 
+  workflow_dispatch: {}
+
 jobs:
   lint-dockerfile:
     runs-on: ubuntu-latest
