@@ -77,9 +77,11 @@ jobs:
           fi
 
           # https://trstringer.com/github-actions-multiline-strings
-          echo "TAGS<<EOF" >> $GITHUB_ENV
-          echo "$TAGS" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          {
+            echo "TAGS<<EOF"
+            echo "$TAGS"
+            echo "EOF"
+          } >> "$GITHUB_ENV"
 
       - name: Set docker labels and tags
         id: metadata
