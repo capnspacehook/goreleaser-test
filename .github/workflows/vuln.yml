@@ -26,7 +26,6 @@ jobs:
           cache: true
 
       - name: Scan for known vulnerable dependencies
-        uses: florianl/govulncheck-action@v0.0.3
-        with:
-          install-go: false
-          govulncheck-verbose: true
+        run: |
+          go install golang.org/x/vuln/cmd/govulncheck@latest
+          govulncheck -v ./...
