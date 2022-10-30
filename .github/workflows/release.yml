@@ -13,7 +13,7 @@ env:
 jobs:
   release-binary:
     runs-on: ubuntu-latest
-    if: contains(github.ref, 'tag')
+    if: github.ref_type == 'tag'
     permissions:
       id-token: write
       contents: write
@@ -57,10 +57,10 @@ jobs:
       - name: Install cosign
         uses: sigstore/cosign-installer@main
 
-      - name: Install docker buildx
+      - name: Install Docker buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build list of docker tags to use
+      - name: Build list of Docker tags to use
         id: tag-types
         run: |
           if [[ ${{ contains(github.ref, 'tag') }} == true ]]; then
@@ -83,7 +83,7 @@ jobs:
             echo "EOF"
           } >> "$GITHUB_ENV"
 
-      - name: Set docker labels and tags
+      - name: Set Docker labels and tags
         id: metadata
         uses: docker/metadata-action@v4
         with:
@@ -103,7 +103,7 @@ jobs:
         id: get-tag
         uses: olegtarasov/get-tag@v2.1
 
-      - name: Build and push docker image
+      - name: Build and push Docker image
         id: build-push
         uses: docker/build-push-action@v3
         with:
