@@ -11,9 +11,10 @@ Multiple workflows are configured that will:
 
 - Lint Go code
 - Check that `go.mod` is tidied
+- Check that generated files are up to date
 - Test Go code and fuzz for 10 minutes
-- Lint workflow files with [actionlint](https://github.com/rhysd/actionlint)
 - Lint the Dockerfile with [hadolint](https://github.com/hadolint/hadolint)
+- Lint workflow files with [actionlint](https://github.com/rhysd/actionlint)
 - Build, publish, sign and scan Docker images with [cosign](https://github.com/sigstore/cosign), [grype](https://github.com/anchore/grype) and [trivy](https://github.com/aquasecurity/trivy)
 - Build, sign, publish binaries and create releases with [goreleaser](https://github.com/goreleaser/goreleaser) and [cosign](https://github.com/sigstore/cosign)
 
@@ -24,11 +25,14 @@ Binaries will only be released when a semver compatible tag is pushed however.
 
 Use this repository as a template and build your project from it.
 
-Workflow files will work without modification, as will releasing Docker images and binaries with goreleaser.
+Almost all workflow files will work without modification, as will releasing Docker images and binaries with goreleaser.
 Note that only `linux/amd64` images and binaries are built by default, so you may need to add more target
 operating systems and/or architectures based off of your requirements.
 
-The workflow that tests and fuzzes Go code will still pass if no tests or fuzz tests are present, so when you
+You may need to add steps to install tools that `go generate` uses in the `Lint Go/check-go-generate` job for it
+to work correctly.
+
+The `Test` workflow will still pass if no tests or fuzz tests are present, so when you
 do add tests and fuzz tests the workflow will run them without needing any changes from you.
 
 When you want to change the Go version that is used in workflows, simply change the `GO_VERSION` to the minor
