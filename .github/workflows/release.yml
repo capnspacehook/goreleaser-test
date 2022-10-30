@@ -53,8 +53,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
 
       - name: Install cosign
         uses: sigstore/cosign-installer@main
@@ -109,6 +107,7 @@ jobs:
         id: build-push
         uses: docker/build-push-action@v3
         with:
+          context: .
           push: true
           build-args: |
             VERSION=${{ steps.get-tag.outputs.tag }}
