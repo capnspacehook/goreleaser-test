@@ -3,6 +3,9 @@ FROM golang:1.19.2-alpine AS builder
 COPY . /build
 WORKDIR /build
 
+# add git so VCS info will be stamped in binary
+RUN apk add --no-cache git=2.38.1-r0
+
 # build as PIE to take advantage of exploit mitigations
 ARG CGO_ENABLED=0
 ARG VERSION
