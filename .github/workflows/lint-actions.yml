@@ -7,6 +7,8 @@ on:
 
   workflow_dispatch: {}
 
+# Test
+
 env:
   GO_VERSION: "1.19"
 
