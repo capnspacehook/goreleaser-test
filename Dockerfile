@@ -12,7 +12,7 @@ ARG VERSION
 RUN go build -buildmode=pie -buildvcs=true -ldflags "-s -w -X main.version=${VERSION}" -trimpath -o go-project-template
 
 # pie-loader is built and scanned daily, we want the most recent version
-# hadolint ignore=DL3006
+# hadolint ignore=DL3007
 FROM ghcr.io/capnspacehook/pie-loader:latest
 COPY --from=builder /build/go-project-template /go-project-template
 
