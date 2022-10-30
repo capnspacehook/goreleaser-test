@@ -13,7 +13,7 @@ RUN go build -buildmode=pie -buildvcs=true -ldflags "-s -w -X main.version=${VER
 
 # pie-loader is built and scanned daily, we want the most recent version
 # hadolint ignore=DL3006
-FROM ghcr.io/capnspacehook/pie-loader
+FROM ghcr.io/capnspacehook/pie-loader:latest
 COPY --from=builder /build/go-project-template /go-project-template
 
 USER 1000:1000
