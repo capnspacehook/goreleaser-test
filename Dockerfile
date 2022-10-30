@@ -16,3 +16,4 @@ COPY --from=builder /build/go-project-template /go-project-template
 USER 1000:1000
 
 ENTRYPOINT [ "/go-project-template" ]
+CMD [ "-version" ]

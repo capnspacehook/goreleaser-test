@@ -16,10 +16,12 @@ linters:
     - gosimple
     - govet
     - ineffassign
+    - loggercheck
     - misspell
     - nilerr
     - nilnil
     - prealloc
+    - predeclared
     - reassign
     - revive
     - unconvert
