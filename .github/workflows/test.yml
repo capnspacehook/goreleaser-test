@@ -16,6 +16,7 @@ env:
 jobs:
   race-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -38,6 +39,7 @@ jobs:
   fuzz:
     runs-on: ubuntu-latest
     needs: race-test
+    timeout-minutes: 15
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -58,6 +60,7 @@ jobs:
     # only run this check on pull requests, pushes to master will trigger
     # an image release
     if: contains(github.ref, 'pull')
+    timeout-minutes: 10
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
