@@ -137,5 +137,5 @@ jobs:
           RUN_SNYK: false
           # Scanning with trivy will fail if this repository is private.
           # See https://github.com/aquasecurity/trivy-action/issues/93
-          RUN_TRIVY: ${{ !steps.repo-private.outputs.private }}
+          RUN_TRIVY: ${{ steps.repo-private.outputs.private == 'false' }}
           RUN_GRYPE: true
