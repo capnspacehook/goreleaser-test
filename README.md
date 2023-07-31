@@ -15,7 +15,7 @@ Multiple workflows are configured that will:
 - Test Go code and fuzz for 10 minutes
 - Lint the Dockerfile with [hadolint](https://github.com/hadolint/hadolint)
 - Lint workflow files with [actionlint](https://github.com/rhysd/actionlint)
-- Build, publish, sign and scan Docker images with [cosign](https://github.com/sigstore/cosign), [grype](https://github.com/anchore/grype) and [trivy](https://github.com/aquasecurity/trivy)
+- Build, publish and sign Docker images with [cosign](https://github.com/sigstore/cosign)
 - Build, sign, publish binaries and create releases with [goreleaser](https://github.com/goreleaser/goreleaser) and [cosign](https://github.com/sigstore/cosign)
 
 Almost all workflows will trigger when appropriate files are modified from pushes or pull requests. 
