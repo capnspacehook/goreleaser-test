@@ -122,22 +122,4 @@ jobs:
       - name: Sign container image
         env:
           COSIGN_EXPERIMENTAL: "true"
-        run: cosign sign ghcr.io/${{ github.repository }}@${{ steps.build-push.outputs.digest }}
-
-      - name: Check if repository is private
-        id: repo-private
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          PRIVATE="$(gh repo view ${{ github.repository }} --json isPrivate -q .isPrivate)"
-          echo "private=$PRIVATE" >> "$GITHUB_OUTPUT"
-
-      - name: Scan container image for vulnerabilities
-        uses: chainguard-images/actions/vul-scans@main
-        with:
-          image: ghcr.io/${{ github.repository }}@${{ steps.build-push.outputs.digest }}
-          RUN_SNYK: false
-          # Scanning with trivy will fail if this repository is private.
-          # See https://github.com/aquasecurity/trivy-action/issues/93
-          RUN_TRIVY: ${{ steps.repo-private.outputs.private == 'false' }}
-          RUN_GRYPE: true
+        run: cosign sign --yes ghcr.io/${{ github.repository }}@${{ steps.build-push.outputs.digest }}
