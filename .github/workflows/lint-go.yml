@@ -35,7 +35,7 @@ jobs:
           go mod tidy -compat ${{ env.GO_VERSION }}
           STATUS=$(git status --porcelain go.mod go.sum)
           if [ -n "$STATUS" ]; then
-            echo "Running go mod tidy modified go.mod and/or go.sum"
+            echo "Running 'go mod tidy' modified go.mod and/or go.sum"
             exit 1
           fi
           exit 0
@@ -69,7 +69,6 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
-      pull-requests: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -88,5 +87,3 @@ jobs:
 
       - name: Lint with golangci-lint
         uses: golangci/golangci-lint-action@v3.6.0
-        with:
-          only-new-issues: true
