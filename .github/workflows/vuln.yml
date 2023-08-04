@@ -30,7 +30,6 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}.x
           check-latest: true
-          cache: true
 
       - name: Scan for known vulnerable dependencies
         run: |

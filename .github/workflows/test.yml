@@ -28,7 +28,6 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}.x
           check-latest: true
-          cache: true
 
       - name: Ensure main package builds
         run: |
@@ -56,7 +55,6 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}.x
           check-latest: true
-          cache: true
 
       - name: Fuzz code for 10 minutes
         run: |
