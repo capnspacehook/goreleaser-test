@@ -35,7 +35,7 @@ to work correctly.
 The `Test` workflow will still pass if no tests or fuzz tests are present, so when you
 do add tests and fuzz tests the workflow will run them without needing any changes from you.
 
-When you want to change the Go version that is used in workflows, simply change the `GO_VERSION` environmental variable in `.github/workflows/constants.env` to the minor release you want.
+When you want to change the Go version that is used in workflows, simply change the `GO_VERSION` environmental variable in `.github/constants.env` to the minor release you want.
 
 ## Verifying releases
 
