@@ -21,7 +21,7 @@ jobs:
       - name: Export constant environmental variables
         uses: cardinalby/export-env-action@v2
         with:
-          envFile: .github/workflows/constants.env
+          envFile: .github/constants.env
 
       - name: Install Go
         uses: actions/setup-go@v4
@@ -49,7 +49,7 @@ jobs:
       - name: Export constant environmental variables
         uses: cardinalby/export-env-action@v2
         with:
-          envFile: .github/workflows/constants.env
+          envFile: .github/constants.env
 
       - name: Install Go
         uses: actions/setup-go@v4
