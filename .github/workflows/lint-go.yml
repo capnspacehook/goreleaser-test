@@ -83,4 +83,4 @@ jobs:
           check-latest: true
 
       - name: Lint with golangci-lint
-        uses: golangci/golangci-lint-action@v3.6.0
+        uses: golangci/golangci-lint-action@v3.7.0
