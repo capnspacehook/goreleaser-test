@@ -10,7 +10,7 @@ RUN apk add --no-cache git
 
 # build as PIE to take advantage of exploit mitigations
 ARG CGO_ENABLED=0
-ARG VERSION
+ARG VERSION=devel
 RUN go build -buildmode=pie -buildvcs=true -ldflags "-s -w -X main.version=${VERSION}" -trimpath -o go-project-template
 
 # pie-loader is built and scanned daily, we want the most recent version
