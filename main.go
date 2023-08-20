@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
+	"errors"
 	"flag"
 	"fmt"
-	"log"
 	"os"
 	"os/signal"
 	"runtime/debug"
@@ -14,12 +14,6 @@ import (
 )
 
 const projectName = "Go Project Template" // REPLACE WITH YOUR PROJECT NAME HERE
-
-var (
-	debugLogs    bool
-	logPath      string
-	printVersion bool
-)
 
 func usage() {
 	fmt.Fprintf(os.Stderr, `
@@ -39,23 +33,26 @@ For more information, see https://github.com/<user>/<repo>.
 `[1:])
 }
 
-func init() {
-	flag.Usage = usage
-	flag.BoolVar(&debugLogs, "debug", false, "enable debug logging")
-	flag.StringVar(&logPath, "l", "stdout", "path to log to")
-	flag.BoolVar(&printVersion, "version", false, "print version and build information and exit")
-}
-
 func main() {
 	os.Exit(mainRetCode())
 }
 
 func mainRetCode() int {
+	var (
+		debugLogs    bool
+		logPath      string
+		printVersion bool
+	)
+
+	flag.Usage = usage
+	flag.BoolVar(&debugLogs, "debug", false, "enable debug logging")
+	flag.StringVar(&logPath, "l", "stdout", "path to log to")
+	flag.BoolVar(&printVersion, "version", false, "print version and build information and exit")
 	flag.Parse()
 
 	info, ok := debug.ReadBuildInfo()
 	if !ok {
-		log.Println("build information not found")
+		fmt.Fprintln(os.Stderr, "build information not found")
 		return 1
 	}
 
@@ -76,13 +73,9 @@ func mainRetCode() int {
 
 	logger, err := logCfg.Build()
 	if err != nil {
-		log.Printf("error creating logger: %v", err)
+		fmt.Fprintf(os.Stderr, "error creating logger: %v", err)
 		return 1
 	}
-
-	// may also want to add syscall.SIGTERM on unix based OSes
-	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
-	defer cancel()
 
 	// log current version/commit
 	versionFields := []zap.Field{
@@ -96,6 +89,30 @@ func mainRetCode() int {
 	}
 	logger.Info("starting "+projectName, versionFields...)
 
+	// may also want to add golang.org/x/sys/unix.SIGTERM on unix based OSes
+	ctx, cancel := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer cancel()
+
+	if err := mainErr(ctx, logger); err != nil {
+		var exitCode *errJustExit
+		if errors.As(err, &exitCode) {
+			return int(*exitCode)
+		}
+		fmt.Fprintln(os.Stderr, err)
+		return 1
+	}
+	return 0
+}
+
+type errJustExit int
+
+func (e errJustExit) Error() string { return fmt.Sprintf("exit: %d", e) }
+
+// this disables a linter warning because nil is unconditionally returned
+// here, remove this when adding your own code that can return errors
+//
+//nolint:unparam
+func mainErr(ctx context.Context, logger *zap.Logger) error {
 	// START MAIN LOGIC HERE
 
 	<-ctx.Done()
@@ -103,5 +120,5 @@ func mainRetCode() int {
 
 	// STOP MAIN LOGIC HERE
 
-	return 0
+	return nil
 }
