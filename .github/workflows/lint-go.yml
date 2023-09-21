@@ -28,7 +28,8 @@ jobs:
 
       - name: Ensure go.mod was tidied
         run: |
-          go mod tidy -compat ${{ steps.install-go.outputs.go-version }}
+          GO_VERSION="$(go version | grep -Po '\d\.\d\d\.\d+')"
+          go mod tidy -compat "${GO_VERSION}"
           STATUS=$(git status --porcelain go.mod go.sum)
           if [ -n "$STATUS" ]; then
             echo "Running 'go mod tidy' modified go.mod and/or go.sum"
