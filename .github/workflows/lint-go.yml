@@ -19,18 +19,17 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Go
-        id: install-go
-        uses: actions/setup-go@v4
+        uses: WillAbides/setup-go-faster@v1.11.0
         with:
           go-version-file: go.mod
-          cache: false
 
       - name: Cache Go files
         uses: capnspacehook/cache-go@v1
 
       - name: Ensure go.mod was tidied
         run: |
-          go mod tidy -compat ${{ steps.install-go.outputs.go-version }}
+          GO_VERSION="$(go version | grep -Po '\d\.\d\d\.\d+')"
+          go mod tidy -compat "${GO_VERSION}"
           STATUS=$(git status --porcelain go.mod go.sum)
           if [ -n "$STATUS" ]; then
             echo "Running 'go mod tidy' modified go.mod and/or go.sum"
@@ -46,10 +45,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Go
-        uses: actions/setup-go@v4
+        uses: WillAbides/setup-go-faster@v1.11.0
         with:
           go-version-file: go.mod
-          cache: false
 
       - name: Cache Go files
         uses: capnspacehook/cache-go@v1
@@ -69,10 +67,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Go
-        uses: actions/setup-go@v4
+        uses: WillAbides/setup-go-faster@v1.11.0
         with:
           go-version-file: go.mod
-          cache: false
 
       - name: Lint with golangci-lint
         uses: golangci/golangci-lint-action@v3.7.0

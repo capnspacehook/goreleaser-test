@@ -25,10 +25,9 @@ jobs:
         run: git fetch --force --tags
 
       - name: Install Go
-        uses: actions/setup-go@v4
+        uses: WillAbides/setup-go-faster@v1.11.0
         with:
           go-version-file: go.mod
-          cache: false
 
       - name: Cache Go files
         uses: capnspacehook/cache-go@v1
