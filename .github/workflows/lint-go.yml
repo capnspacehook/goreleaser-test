@@ -23,6 +23,10 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
+          cache: false
+
+      - name: Cache Go files
+        uses: capnspacehook/cache-go@v1
 
       - name: Ensure go.mod was tidied
         run: |
@@ -45,6 +49,10 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
+          cache: false
+
+      - name: Cache Go files
+        uses: capnspacehook/cache-go@v1
 
       - name: Lint with staticcheck
         uses: dominikh/staticcheck-action@v1.3.0
@@ -64,6 +72,7 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
+          cache: false
 
       - name: Lint with golangci-lint
         uses: golangci/golangci-lint-action@v3.7.0

@@ -1,7 +1,7 @@
 name: Lint workflows
 
 on:
-  push:
+  pull_request:
     paths:
       - ".github/workflows/*"
 
@@ -19,6 +19,10 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
+          cache: false
+
+      - name: Cache Go files
+        uses: capnspacehook/cache-go@v1
 
       - name: Lint workflow files
         run: |

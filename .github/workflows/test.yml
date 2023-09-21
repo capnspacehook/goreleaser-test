@@ -22,6 +22,10 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
+          cache: false
+
+      - name: Cache Go files
+        uses: capnspacehook/cache-go@v1
 
       - name: Ensure main package builds
         run: |
@@ -43,6 +47,10 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
+          cache: false
+
+      - name: Cache Go files
+        uses: capnspacehook/cache-go@v1
 
       - name: Fuzz code for 10 minutes
         run: |

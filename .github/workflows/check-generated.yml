@@ -24,6 +24,10 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version-file: go.mod
+          cache: false
+
+      - name: Cache Go files
+        uses: capnspacehook/cache-go@v1
 
       # Install any tools 'go generate' uses here
 
