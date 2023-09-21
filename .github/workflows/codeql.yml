@@ -49,6 +49,15 @@ jobs:
         with:
           languages: ${{ matrix.language }}
 
+      # TODO: remove once https://github.com/github/codeql/issues/13992 is fixed
+      - name: Install Go
+        uses: WillAbides/setup-go-faster@v1.11.0
+        with:
+          go-version-file: go.mod
+
+      - name: Cache Go files
+        uses: capnspacehook/cache-go@v1
+
       - name: Autobuild
         uses: github/codeql-action/autobuild@v2
 

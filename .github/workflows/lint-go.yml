@@ -48,6 +48,7 @@ jobs:
         uses: WillAbides/setup-go-faster@v1.11.0
         with:
           go-version-file: go.mod
+
       - name: Cache Go files
         uses: capnspacehook/cache-go@v1
 
