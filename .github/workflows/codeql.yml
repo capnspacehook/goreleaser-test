@@ -49,12 +49,6 @@ jobs:
         with:
           languages: ${{ matrix.language }}
 
-      # TODO: remove once https://github.com/github/codeql/issues/13992 is fixed
-      - name: Install Go
-        uses: actions/setup-go@v4
-        with:
-          go-version-file: go.mod
-
       - name: Autobuild
         uses: github/codeql-action/autobuild@v2
 
