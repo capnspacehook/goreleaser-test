@@ -11,65 +11,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  check-mod-tidy:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Go
-        uses: WillAbides/setup-go-faster@v1.11.0
-        with:
-          go-version-file: go.mod
-
-      - name: Cache Go files
-        uses: capnspacehook/cache-go@v1
-
-      - name: Ensure go.mod was tidied
-        run: |
-          GO_VERSION="$(go version | grep -Po '\d\.\d\d\.\d+')"
-          go mod tidy -compat "${GO_VERSION}"
-          STATUS=$(git status --porcelain go.mod go.sum)
-          if [ -n "$STATUS" ]; then
-            echo "Running 'go mod tidy' modified go.mod and/or go.sum"
-            exit 1
-          fi
-          exit 0
-
-  staticcheck:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Go
-        uses: WillAbides/setup-go-faster@v1.11.0
-        with:
-          go-version-file: go.mod
-
-      - name: Cache Go files
-        uses: capnspacehook/cache-go@v1
-
-      - name: Lint with staticcheck
-        uses: dominikh/staticcheck-action@v1.3.0
-        with:
-          install-go: false
-
-  golangci-lint:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+  lint-go:
     permissions:
       contents: read
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Go
-        uses: WillAbides/setup-go-faster@v1.11.0
-        with:
-          go-version-file: go.mod
-
-      - name: Lint with golangci-lint
-        uses: golangci/golangci-lint-action@v3.7.0
+    uses: capnspacehook/go-workflows/.github/workflows/lint-go.yml@master

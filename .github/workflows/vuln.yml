@@ -13,10 +13,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  govulncheck:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: golang/govulncheck-action@v1.0.1
-        with:
-          go-version-file: go.mod
+  vuln-check:
+    permissions:
+      contents: read
+    uses: capnspacehook/go-workflows/.github/workflows/vuln.yml@master
