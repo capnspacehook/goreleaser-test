@@ -29,13 +29,12 @@ Almost all workflow files will work without modification, as will releasing Dock
 Note that only `linux/amd64` images and binaries are built by default, so you may need to add more target
 operating systems and/or architectures based off of your requirements.
 
-You may need to add steps to install tools that `go generate` uses in the `Lint Go/check-go-generate` job for it
-to work correctly.
+The `Check generated files` job assumes code generation tools will be installed by running `go generate`.
 
 The `Test` workflow will still pass if no tests or fuzz tests are present, so when you
 do add tests and fuzz tests the workflow will run them without needing any changes from you.
 
-When you want to change the Go version that is used in workflows, simply change the `GO_VERSION` environmental variable in `.github/constants.env` to the minor release you want.
+When you want to change the Go version that is used in workflows, simply change the version of Go in the `go` directive of `go.mod`.
 
 ## Verifying releases
 
