@@ -51,6 +51,9 @@ linters-settings:
       - standard
       - default
       - prefix(github.com/capnspacehook/go-project-template)
+  goconst:
+    min-len: 5
+    min-occurrences: 3
   gocritic:
     settings:
       ifElseChain:
